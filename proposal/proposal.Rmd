@@ -7,6 +7,9 @@ output: html_document
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
+library(readr)
+library(ggridges)
+library(ggplot2)
 ```
 
 ## 1. Introduction
@@ -15,19 +18,47 @@ Text goes here. Refer to the Markdown Quick Reference: Help -> Markdown Quick Re
 
 ## 2. Data
 
-Text goes here.
+```{r analysis}
+victims_incidents <- read_csv("../data/victims_incidents.csv")
+glimpse(victims_incidents)
 
-```{r}
-# Code goes here
 ```
 
 ## 3. Data analysis plan
 
-Text goes here.
+In a choropleth map with bar chart we are hoping to visualize these variables:
+
+Density of incidents
+Date (Year)
+Gender
+County
 
 
+In a bar chart we are hoping to visualize these variables:
+Perpetrator type
+Conviction
+
+
+We were considering researching laws in different areas, as they may be significant in swaying the outcome to 
+
+The preliminary data analysis shows there are variations in the amount of victims based on gender throughout time. It also shows that there is variation in the number of incidents in each state throughout time. 
 ```{r}
-# Code goes here
+names(victims_incidents)
+dim(victims_incidents)
+
+ggplot(victims_incidents, aes(
+  sex))+
+  geom_bar()
+
+victims_incidents<-victims_incidents|>
+  drop_na(sex)
+ggplot(victims_incidents, aes(
+  incident_year_range_end, fill=sex))+
+  geom_bar()
+
+ggplot(victims_incidents, aes(
+  incident_year_range_end, state, fill=state))+
+  geom_density_ridges()
 ```
 
 

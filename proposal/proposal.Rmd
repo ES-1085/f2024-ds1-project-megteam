@@ -1,7 +1,7 @@
 ---
 title: "Project proposal"
 author: "MEG"
-output: html_document
+output: github_document
 ---
 
 ```{r load-packages, message = FALSE}
@@ -14,7 +14,6 @@ library(ggplot2)
 
 ## 1. Introduction
 
-Text goes here. Refer to the Markdown Quick Reference: Help -> Markdown Quick Reference. 
 
 ## 2. Data
 
@@ -32,7 +31,6 @@ Density of incidents
 Date (Year)
 Gender
 County
-
 
 In a bar chart we are hoping to visualize these variables:
 Perpetrator type

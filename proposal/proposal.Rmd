@@ -13,7 +13,7 @@ library(ggplot2)
 ```
 
 ## 1. Introduction
-
+ How does time, place, and gender affect the distribution of racial violence in the American South? This specific data set comes from The Burnham-Nobles Archive from The Civil Rights & Restorative Justice Project at Northeastern University School of Law. The Archive focuses on victims of anti-black violence. The project seeks to contextualize the history of anti-black violence in the United States. The Burnham-Nobles Archive has been working to collect reports for over 15 years and keep collecting. The victims_incidents data set specifically looks at 15 variables. It focuses its location on 11 different states in the American South. The variables include date, time, police presence, etc. 
 
 ## 2. Data
 

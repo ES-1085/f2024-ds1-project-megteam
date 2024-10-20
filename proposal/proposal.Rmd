@@ -1,4 +1,4 @@
----
+gl---
 title: "Project proposal"
 author: "MEG"
 output: github_document
@@ -10,6 +10,8 @@ library(broom)
 library(readr)
 library(ggridges)
 library(ggplot2)
+library(usmap)
+library(dplyr)
 ```
 
 ## 1. Introduction
@@ -40,7 +42,7 @@ Conviction
 We were considering researching laws in different areas, as they may be significant in swaying the outcome to 
 
 The preliminary data analysis shows there are variations in the amount of victims based on gender throughout time. It also shows that there is variation in the number of incidents in each state throughout time. 
-```{r}
+```{r graphs}
 names(victims_incidents)
 dim(victims_incidents)
 
@@ -58,7 +60,26 @@ ggplot(victims_incidents, aes(
   incident_year_range_end, state, fill=state))+
   geom_density_ridges()
 ```
+``` {r mapping}
 
+incident_count <- victims_incidents %>%
+  group_by(state) %>%
+  summarize(incident_total = n())
+
+# Plotting the incidents by county and state on the map
+plot_usmap(data = incident_count, values = "incident_total", include = .south_region, color = "black", exclude = c("OK", "KY", "WV", "MD", "DE", "DC"), labels = TRUE) + 
+  scale_fill_continuous(low = "white", high = "red", name = "Incident Count", label = scales::comma) + 
+  labs(title = "South Region", subtitle = "Incident Count by County") +
+  theme(legend.position = "right")
+```
+```{r incidents_count_by_state}
+victims_incidents %>%
+  group_by(state) %>%
+  summarise(total_incidents = n()) %>%
+  arrange(desc(total_incidents)) %>% 
+  print()
+
+```
 
 ## 4. Data Ethics Review
 

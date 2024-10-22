@@ -1,0 +1,12 @@
+```{r load-packages, message = FALSE}
+library(tidyverse)
+library(broom)
+library(readr)
+library(ggridges)
+library(ggplot2)
+library(usmap)
+library(dplyr)
+library(tigris)
+library(stringr)
+```
+

@@ -50,17 +50,20 @@ dim(victims_incidents)
 
 ggplot(victims_incidents, aes(
   sex))+
-  geom_bar()
+  geom_bar()+
+  labs(title = "Incident count by Sex")
 
 victims_incidents<-victims_incidents|>
   drop_na(sex)
 ggplot(victims_incidents, aes(
   incident_year_range_end, fill=sex))+
-  geom_bar()
+  geom_bar()+
+  labs(title = "Incident count by Sex and Year")
 
 ggplot(victims_incidents, aes(
   incident_year_range_end, state, fill=state))+
-  geom_density_ridges()
+  geom_density_ridges()+
+  labs(title = "Incident count by State and Year")
 ```
 
 ## 4. Data Ethics Review

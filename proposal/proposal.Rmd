@@ -40,9 +40,6 @@ In a bar chart we are hoping to visualize these variables:
 Perpetrator type
 Conviction
 
-
-We were considering researching laws in different areas, as they may be significant in swaying the outcome to 
-
 The preliminary data analysis shows there are variations in the amount of victims based on gender throughout time. It also shows that there is variation in the number of incidents in each state throughout time. 
 ```{r graphs}
 names(victims_incidents)

@@ -8,6 +8,8 @@ library(usmap)
 library(dplyr)
 library(tigris)
 library(stringr)
+install.packages("leaflet")
+library(leaflet)
 ```
 
 ```{r analysis}
@@ -60,4 +62,7 @@ plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_co
   theme(legend.position = "right")
 
 # add better coloring for more contrast and colorblindness
+```
+``` {r leaflet-trial}
+
 ```

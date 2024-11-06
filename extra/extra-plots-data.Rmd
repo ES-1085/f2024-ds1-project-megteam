@@ -10,6 +10,7 @@ library(tigris)
 library(stringr)
 install.packages("leaflet")
 library(leaflet)
+library(sf)
 ```
 
 ```{r analysis}
@@ -64,5 +65,8 @@ plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_co
 # add better coloring for more contrast and colorblindness
 ```
 ``` {r leaflet-trial}
+counties(state= c("AL", "AR", "FL", "GA", "LA", "MS", "NC", "TN", "TX", "VA"), cb=FALSE, resolution="500k")
+
+leaflet(victims_incidents)
 
 ```

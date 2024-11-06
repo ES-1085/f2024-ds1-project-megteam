@@ -8,12 +8,13 @@ library(usmap)
 library(dplyr)
 library(tigris)
 library(stringr)
+install.packages("leaflet")
+library(leaflet)
 ```
 
 ```{r analysis}
 victims_incidents <- read_csv("../data/victims_incidents.csv")
 glimpse(victims_incidents)
-
 ```
 
 ``` {r incidents_state_map}
@@ -50,9 +51,9 @@ alabama_incidents_fix <- victims_incidents %>%
 alabama_incidents <- alabama_incidents_fix %>%
   left_join(fips_data, by = "county")
 
-# sorted_alabama <- alabama_incidents %>% 
-#  arrange(desc(incident_count)) %>% 
-# print(sorted_alabama) #for general viewing and to double check because things weren't joining right
+ sorted_alabama <- alabama_incidents %>% 
+  arrange(desc(incident_count)) %>% 
+ print(sorted_alabama) #for general viewing and to double check because things weren't joining right
 
 plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_count", include = "AL", color = "black") +
  scale_fill_continuous(low = "white", high = "red", name = "Incidents Count", na.value = "white") +
@@ -62,4 +63,8 @@ plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_co
 
 # add better coloring for more contrast and colorblindness
 # add closer map or another variable to show why the counts are so high in one county
+=======
+```
+``` {r leaflet-trial}
+
 ```

@@ -4,7 +4,7 @@ Place data file(s) in this folder.
 
 ## victims_incidents.csv
 
-this file has `r nrow(victims_incidents)` rows and `r ncol(victims_incidents)` columns.
+this file has 955 rows and 42 columns.
 
 -   `name`: Name of victim
 -   `county`: County where incident occurred.

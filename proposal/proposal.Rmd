@@ -33,7 +33,6 @@ In a choropleth map with bar chart we are hoping to visualize these variables:
 
 Density of incidents
 Date (Year)
-Gender
 County
 
 In a bar chart we are hoping to visualize these variables:
@@ -47,19 +46,26 @@ The preliminary data analysis shows there are variations in the amount of victim
 ```{r graphs}
 names(victims_incidents)
 dim(victims_incidents)
+```
 
+```{r}
 ggplot(victims_incidents, aes(
   sex))+
   geom_bar()+
   labs(title = "Incident count by Sex")
+# 
+```
 
+```{r}
 victims_incidents<-victims_incidents|>
   drop_na(sex)
 ggplot(victims_incidents, aes(
   incident_year_range_end, fill=sex))+
   geom_bar()+
   labs(title = "Incident count by Sex and Year")
+```
 
+```{r}
 ggplot(victims_incidents, aes(
   incident_year_range_end, state, fill=state))+
   geom_density_ridges()+

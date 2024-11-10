@@ -13,10 +13,17 @@ library(broom)
 
 ## Data Clean Up Steps for Overall Data
 
-### Step 1: _________
+### Step 1: Adding a "perp_group" column based on the four individual true/false columns for perp type. 
 
-```{r}
-
+```{r merge-perp-groups}
+victims_incidents <- victims_incidents %>%
+  mutate(perp_group = case_when(
+    perp_group_police == TRUE ~ "police",
+    perp_group_posse == TRUE ~ "posse",
+    perp_group_hate == TRUE ~ "hate",
+    perp_group_mob == TRUE ~ "mob",
+    TRUE ~ NA_character_
+  ))
 ```
 
 ### Step 2: ________
@@ -74,13 +81,3 @@ Add more plot sections as needed. Each project should have at least 3 plots, but
 ### Plot 4: ___________ 
 
 
-```{r merge-perp-groups}
-victims_incidents <- victims_incidents %>%
-  mutate(perp_group = case_when(
-    perp_group_police == TRUE ~ "police",
-    perp_group_posse == TRUE ~ "posse",
-    perp_group_hate == TRUE ~ "hate",
-    perp_group_mob == TRUE ~ "mob",
-    TRUE ~ NA_character_
-  ))
-```

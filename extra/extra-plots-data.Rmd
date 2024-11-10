@@ -66,6 +66,25 @@ plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_co
 # add closer map or another variable to show why the counts are so high in one county
 
 ```
-``` {r leaflet-trial}
 
+``` {r leaflet-trial}
+county_shapes <- counties(state= c("AL", "AR", "FL", "GA", "LA", "MS", "NC", "TN", "TX", "VA"), cb=FALSE, resolution="500k")
+
+#leaflet(victims_incidents)
+
+all_counties_map <- victims_incidents %>% 
+  mutate(county = str_replace(county, " County", "")) %>%  # because county names don't match fips data
+  group_by(state, county) %>%
+  summarise(incident_count = n(), .groups = 'drop') %>% 
+  arrange(state, desc(incident_count))
+  
+  county_shapes <- county_shapes
+ # mutate(county = str_replace(county, " County", "")) # to match
+
+all_counties_map_with_shapes <- all_counties_map %>%
+  left_join(county_shapes, by = c("geometry"))
+
+leaflet(data = all_counties_map_with_shapes) %>% 
+  addTiles() %>% 
+  addPolygons(fillColor = ~pal(incident_count)
 ```

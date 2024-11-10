@@ -19,7 +19,6 @@ glimpse(victims_incidents)
 ```
 
 ``` {r incidents_state_map}
-
 incident_count <- victims_incidents %>%
   group_by(state) %>%
   summarize(incident_total = n())

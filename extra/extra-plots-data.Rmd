@@ -10,6 +10,7 @@ library(tigris)
 library(stringr)
 install.packages("leaflet")
 library(leaflet)
+library(sf)
 ```
 
 ```{r analysis}
@@ -37,7 +38,6 @@ victims_incidents %>%
   print()
 
 ```
-
 ``` {r incidents_alabama_counties}
 
 fips_data <- tigris::counties(state = "Alabama", class = "sf") %>%

@@ -59,23 +59,17 @@ plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_co
 ```
 
 ``` {r leaflet-trial}
-county_shapes <- counties(state= c("AL", "AR", "FL", "GA", "LA", "MS", "NC", "TN", "TX", "VA"), cb=FALSE, resolution="500k")
-
-#leaflet(victims_incidents)
-
 all_counties_map <- victims_incidents %>% 
   mutate(county = str_replace(county, " County", "")) %>%  # because county names don't match fips data
   group_by(state, county) %>%
   summarise(incident_count = n(), .groups = 'drop') %>% 
-  arrange(state, desc(incident_count))
-  
-  county_shapes <- county_shapes
- # mutate(county = str_replace(county, " County", "")) # to match
+  arrange(state, county)
 
-all_counties_map_with_shapes <- all_counties_map %>%
-  left_join(county_shapes, by = c("geometry"))
+counties_data <- tigris::counties(state = c("AL", "AR", "FL", "GA", "LA", "MS", "NC", "TN", "TX", "VA"), class = "sf")
 
-leaflet(data = all_counties_map_with_shapes) %>% 
-  addTiles() %>% 
-  addPolygons(fillColor = ~pal(incident_count)
+
+counties_data <- tigris::counties(state = c("AL", "AR", "FL", "GA", "LA", "MS", "NC", "TN", "TX", "VA"), class = "sf") %>%
+  select(GEOID = GEOID, county = NAME, state = NAME)
+
+states<-list_states(c("AL", "AR", "FL", "GA", "LA", "MS", "NC", "TN", "TX", "VA"), sorted = TRUE)
 ```

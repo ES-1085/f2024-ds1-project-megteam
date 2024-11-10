@@ -19,26 +19,22 @@ glimpse(victims_incidents)
 ```
 
 ``` {r incidents_state_map}
-incident_count <- victims_incidents %>%
-  group_by(state) %>%
-  summarize(incident_total = n())
-
 plot_usmap(data = incident_count, values = "incident_total", include = .south_region, color = "black", exclude = c("OK", "KY", "WV", "MD", "DE", "DC"), labels = TRUE) + 
   scale_fill_continuous(low = "white", high = "red", name = "Incident Count") + 
   labs(title = "Incident Count By State")+
   theme(legend.position = "right")
 # colorblind friendly pallet
 ```
+
 ```{r incidents_count_by_state}
 victims_incidents %>%
   group_by(state) %>%
   summarise(total_incidents = n()) %>%
   arrange(desc(total_incidents)) %>% 
   print()
-
 ```
-``` {r incidents_alabama_counties}
 
+``` {r incidents_alabama_counties}
 fips_data <- tigris::counties(state = "Alabama", class = "sf") %>%
   select(fips = GEOID, county = NAME)
 
@@ -53,17 +49,13 @@ alabama_incidents <- alabama_incidents_fix %>%
 
  sorted_alabama <- alabama_incidents %>% 
   arrange(desc(incident_count)) %>% 
- print(sorted_alabama) #for general viewing and to double check because things weren't joining right
-
+ print(sorted_alabama)
+ 
 plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_count", include = "AL", color = "black") +
  scale_fill_continuous(low = "white", high = "red", name = "Incidents Count", na.value = "white") +
   labs(title = "Number of Incidents by County in Alabama",
        subtitle = "Of 203 total incidents in the state") +
   theme(legend.position = "right")
-
-# add better coloring for more contrast and colorblindness
-# add closer map or another variable to show why the counts are so high in one county
-
 ```
 
 ``` {r leaflet-trial}

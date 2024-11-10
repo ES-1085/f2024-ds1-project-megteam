@@ -26,7 +26,13 @@ victims_incidents <- victims_incidents %>%
   ))
 ```
 
-### Step 2: ________
+### Step 2: Create a count of incident total by each state 
+``` {r incidents_state_map}
+incident_count <- victims_incidents %>%
+  group_by(state) %>%
+  summarize(incident_total = n())
+```
+
 
 ## Plots
 

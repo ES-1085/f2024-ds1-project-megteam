@@ -27,6 +27,7 @@ plot_usmap(data = incident_count, values = "incident_total", include = .south_re
   scale_fill_continuous(low = "white", high = "red", name = "Incident Count") + 
   labs(title = "Incident Count By State")+
   theme(legend.position = "right")
+# colorblind friendly pallet
 ```
 ```{r incidents_count_by_state}
 victims_incidents %>%
@@ -61,6 +62,8 @@ plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_co
   theme(legend.position = "right")
 
 # add better coloring for more contrast and colorblindness
+# add closer map or another variable to show why the counts are so high in one county
+
 ```
 
 ``` {r leaflet-trial}

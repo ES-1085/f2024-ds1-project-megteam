@@ -17,7 +17,7 @@ library(stringr)
 ```
 
 ## 1. Introduction
- How does time, place, and gender affect the distribution of racial violence in the American South? This specific data set comes from The Burnham-Nobles Archive from The Civil Rights & Restorative Justice Project at Northeastern University School of Law. The Archive focuses on victims of anti-black violence. The project seeks to contextualize the history of anti-black violence in the United States. The Burnham-Nobles Archive has been working to collect reports for over 15 years and keep collecting. The victims_incidents data set specifically looks at 15 variables. It focuses its location on 11 different states in the American South. The variables include date, time, police presence, etc. This dataset has information dating from 1930-1954.
+ How does time, place, and gender affect the distribution of racial violence in the American South? This specific data set comes from The Burnham-Nobles Archive from The Civil Rights & Restorative Justice Project at Northeastern University School of Law. The Archive focuses on victims of anti-black violence. The project seeks to contextualize the history of anti-black violence in the United States. The Burnham-Nobles Archive has been working to collect reports for over 15 years and keep collecting. The victims_incidents data set specifically looks at 15 variables. It focuses its location on 11 different states in the American South. The variables include date, time, police presence, etc. 
 
 ## 2. Data
 
@@ -33,23 +33,30 @@ In a choropleth map with bar chart we are hoping to visualize these variables:
 
 Density of incidents
 Date (Year)
-Gender
 County
 
 In a bar chart we are hoping to visualize these variables:
 Perpetrator type
 Conviction
 
+
+We were considering researching laws in different areas, as they may be significant in swaying the outcome to 
+
 The preliminary data analysis shows there are variations in the amount of victims based on gender throughout time. It also shows that there is variation in the number of incidents in each state throughout time. 
 ```{r graphs}
 names(victims_incidents)
 dim(victims_incidents)
+```
 
+```{r}
 ggplot(victims_incidents, aes(
   sex))+
   geom_bar()+
   labs(title = "Incident count by Sex")
+# 
+```
 
+```{r}
 victims_incidents<-victims_incidents|>
   drop_na(sex)
 ggplot(victims_incidents, aes(
@@ -63,7 +70,44 @@ ggplot(victims_incidents, aes(
                     labels = c("Female", "Male"),
                     values = c("#ff3333", "#800000")) +  # Hex values for colors
   theme(legend.position = "right")
+  labs(title = "Male vs. Female incident count from 1930-1955", 
+x = "Year")
 
+```
+
+```{r load-packages}
+library(tidyverse)
+library(hrbrthemes)
+library(kableExtra)
+options(knitr.table.format = "html")
+library(streamgraph)
+library(viridis)
+library(DT)
+library(plotly)
+```
+
+```{r spagetti plot}
+victims_incidents %>%
+  filter(state %in% c("Alabama", "Arkansas", "Florida", "Georgia", "Louisiana", "Mississipi", "North Carolina", "South Carolina", "Tennessee", "Texas", "Virginia"))
+
+victims_incidents %>%
+  ggplot( aes(x=year, y=n, group=state, color=state)) +
+    geom_line() +
+    scale_color_viridis(discrete = TRUE) +
+    theme(
+      legend.position="none",
+      plot.title = element_text(size=14)
+    ) +
+    ggtitle("Incident Count By State and Year") +
+    theme_ipsum()
+```
+
+
+
+
+>>>>>>> f7ba748557d71faaae1b75237eaf5f20f8182693
+
+```{r}
 ggplot(victims_incidents, aes(
   incident_year_range_end, state, fill=state))+
   geom_density_ridges()+

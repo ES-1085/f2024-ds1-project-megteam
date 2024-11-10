@@ -37,6 +37,7 @@ victims_incidents %>%
   print()
 
 ```
+
 ``` {r incidents_alabama_counties}
 
 fips_data <- tigris::counties(state = "Alabama", class = "sf") %>%
@@ -63,7 +64,7 @@ plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_co
 
 # add better coloring for more contrast and colorblindness
 # add closer map or another variable to show why the counts are so high in one county
-=======
+
 ```
 ``` {r leaflet-trial}
 

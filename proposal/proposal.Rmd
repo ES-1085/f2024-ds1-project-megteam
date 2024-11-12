@@ -1,4 +1,4 @@
-gl---
+---
 title: "Project proposal"
 author: "MEG"
 output: github_document

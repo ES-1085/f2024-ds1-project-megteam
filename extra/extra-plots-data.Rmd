@@ -23,11 +23,11 @@ glimpse(victims_incidents)
 ```
 
 ``` {r incidents_state_map}
-#plot_usmap(data = incident_count, values = "incident_total", include = .south_region, color = "black", exclude = c("OK", "KY", "WV", "MD", "DE", "DC"), labels = TRUE) + 
-#  scale_fill_continuous(low = "white", high = "red", name = "Incident Count") + 
-#  labs(title = "Incident Count By State")+
-#  theme(legend.position = "right")
-# colorblind friendly pallet
+plot_usmap(data = counties_data, values = "incident_count", include = .south_region, color = "black", exclude = c("OK", "KY", "WV", "MD", "DE", "DC"), labels = TRUE) + 
+  scale_fill_continuous(low = "white", high = "red", name = "Incident Count") + 
+  labs(title = "Incident Count By State")+
+  theme(legend.position = "right")
+ #colorblind friendly pallet
 ```
 
 ```{r incidents_count_by_state}
@@ -39,27 +39,27 @@ victims_incidents %>%
 ```
 
 ``` {r incidents_alabama_counties}
-#fips_data <- tigris::counties(state = "Alabama", class = "sf") %>%
-#  select(fips = GEOID, county = NAME)
+fips_data <- tigris::counties(state = "Alabama", class = "sf") %>%
+  select(fips = GEOID, county = NAME)
 
-#alabama_incidents_fix <- victims_incidents %>%
-#  filter(state == "Alabama") %>%
-#  mutate(county = str_replace(county, " County", "")) %>%  # because county names don't match fips data
-#  group_by(county) %>%
-#  summarise(incident_count = n(), .groups = 'drop')
+alabama_incidents_fix <- victims_incidents %>%
+  filter(state == "Alabama") %>%
+  mutate(county = str_replace(county, " County", "")) %>%  # because county names don't match fips data
+  group_by(county) %>%
+  summarise(incident_count = n(), .groups = 'drop')
 
-#alabama_incidents <- alabama_incidents_fix %>%
-#  left_join(fips_data, by = "county")
+alabama_incidents <- alabama_incidents_fix %>%
+  left_join(fips_data, by = "county")
 
-# sorted_alabama <- alabama_incidents %>% 
-#  arrange(desc(incident_count)) %>% 
-# print(sorted_alabama)
+ sorted_alabama <- alabama_incidents %>% 
+  arrange(desc(incident_count)) %>% 
+ print(sorted_alabama)
  
-#plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_count", include = "AL", color = "black") +
-# scale_fill_continuous(low = "white", high = "red", name = "Incidents Count", na.value = "white") +
-#  labs(title = "Number of Incidents by County in Alabama",
-#      subtitle = "Of 203 total incidents in the state") +
-#  theme(legend.position = "right")
+plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_count", include = "AL", color = "black") +
+ scale_fill_continuous(low = "white", high = "red", name = "Incidents Count", na.value = "white") +
+  labs(title = "Number of Incidents by County in Alabama",
+      subtitle = "Of 203 total incidents in the state") +
+  theme(legend.position = "right")
 ```
 
 ``` {r leaflet-trial}
@@ -105,15 +105,25 @@ sf_counties <- counties_data|>
 ```
 
 ```{r leaflet-plots}
+countybin<-seq(from = 1, to = 95, by = 5)
 
-leaflet(sf_counties) %>%  # Limit to first 100 polygons for RAM problems
-  addProviderTiles(providers$OpenStreetMap) %>%
+palcounty<-colorBin("Reds", domain = counties_data$incident_count, bins = countybin)
+
+
+leaflet(sf_counties) |>
+  addProviderTiles(providers$OpenStreetMap) |>
   addPolygons(
-    fillColor = ~colorBin("YlOrRd", incident_count)(incident_count),  # Color by incident count
+    fillColor = ~palcounty(counties_data$incident_count),  # Color by incident count
     weight = 2,
     opacity = 1,
     color = "black",
-    fillOpacity = 1,
-  )
+    fillOpacity = 1,)|>
+   addLegend(position = "topleft",
+            pal = palcounty,
+            values = ~counties_data$incident_count, 
+            title = "Deaths reported per county" ,
+            opacity = 1,
+            )
+
 
 ```

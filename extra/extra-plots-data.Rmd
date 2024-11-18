@@ -1,3 +1,6 @@
+---
+Title: Extra Plots
+---
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
@@ -11,20 +14,33 @@ library(stringr)
 # install.packages("leaflet")
 library(leaflet)
 library(sf)
+<<<<<<< HEAD
 library("visdat")
 library(naniar)
 library(UpSetR)
 # install.packages("devtools")
 library(devtools)
 devtools::install_github("hrbrmstr/streamgraph")
+=======
+library(RColorBrewer)
+>>>>>>> c3693073376db6e592ffee748b87bc6f1f221e0d
 ```
 
 ```{r analysis}
 victims_incidents <- read_csv("../data/victims_incidents.csv")
 glimpse(victims_incidents)
 ```
+<<<<<<< HEAD
 ```{r}
 summary(victims_incidents)
+
+``` {r incidents_state_map}
+plot_usmap(data = counties_data, values = "incident_count", include = .south_region, color = "black", exclude = c("OK", "KY", "WV", "MD", "DE", "DC"), labels = TRUE) + 
+  scale_fill_continuous(low = "white", high = "red", name = "Incident Count") + 
+  labs(title = "Incident Count By State")+
+  theme(legend.position = "right")
+ #colorblind friendly pallet
+>>>>>>> c3693073376db6e592ffee748b87bc6f1f221e0d
 ```
 
 ```{r incidents_count_by_state}
@@ -39,43 +55,81 @@ victims_incidents %>%
 fips_data <- tigris::counties(state = "Alabama", class = "sf") %>%
   select(fips = GEOID, county = NAME)
 
-alabama_incidents_fix <- victims_incidents %>%
-  filter(state == "Alabama") %>%
-  mutate(county = str_replace(county, " County", "")) %>%  # because county names don't match fips data
-  group_by(county) %>%
-  summarise(incident_count = n(), .groups = 'drop')
-
-alabama_incidents <- alabama_incidents_fix %>%
-  left_join(fips_data, by = "county")
-
- sorted_alabama <- alabama_incidents %>% 
-  arrange(desc(incident_count)) %>% 
- print(sorted_alabama)
+#Data cleanup steps for this map moved to memo
  
 plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_count", include = "AL", color = "black") +
  scale_fill_continuous(low = "white", high = "red", name = "Incidents Count", na.value = "white") +
   labs(title = "Number of Incidents by County in Alabama",
-       subtitle = "Of 203 total incidents in the state") +
+      subtitle = "Of 203 total incidents in the state") +
   theme(legend.position = "right")
 ```
 
 ``` {r leaflet-trial}
-county_shapes <- counties(state= c("AL", "AR", "FL", "GA", "LA", "MS", "NC", "TN", "TX", "VA"), cb=FALSE, resolution="500k")
-
-#leaflet(victims_incidents)
-
 all_counties_map <- victims_incidents %>% 
   mutate(county = str_replace(county, " County", "")) %>%  # because county names don't match fips data
-  group_by(state, county) %>%
-  summarise(incident_count = n(), .groups = 'drop') %>% 
-  arrange(state, desc(incident_count))
+  group_by(state, county) %>% # Select counties as a group with the state
+  summarise(incident_count = n(), .groups = 'drop') %>% # Count incidents per county
+  arrange(state, county) # Arrange by state and then county
+
+counties_data <- tigris::counties(state = c("AL", "AR", "FL", "GA", "LA", "MS", "NC", "SC", "TN", "TX", "VA"), class = "sf")|> #Grab multipolygon shapefiles of each county
+  arrange(STATEFP, NAME)|> # Arrange by state and then county
+  rename(county = NAME) # Rename column to "county"
   
-  county_shapes <- county_shapes
- # mutate(county = str_replace(county, " County", "")) # to match
+counties_data<-counties_data|> # Convert STATEFP number to state name to allow join
+  mutate(state = case_when(
+    STATEFP == "01" ~ "Alabama",
+    STATEFP == "05" ~ "Arkansas",
+    STATEFP == "12" ~ "Florida",
+    STATEFP == "13" ~ "Georgia",
+    STATEFP == "22" ~ "Louisiana",
+    STATEFP == "28" ~ "Mississippi",
+    STATEFP == "37" ~ "North Carolina",
+    STATEFP == "45" ~ "South Carolina",
+    STATEFP == "47" ~ "Tennessee",
+    STATEFP == "48" ~ "Texas",
+    STATEFP == "51" ~ "Virginia"))|>
+  select(county, state, geometry)|>
 
-all_counties_map_with_shapes <- all_counties_map %>%
-  left_join(county_shapes, by = c("geometry"))
+  mutate(county = str_replace(county, " Parish", "")) # Fix Louisiana
 
+
+
+```
+
+```{r joins}
+counties_data <- counties_data|>
+  left_join(all_counties_map, by = c("state", "county")) # Joining datasets by state and then county. This includes counties with no incidents.
+
+problems<- all_counties_map |>
+  anti_join(counties_data, join_by(county))
+
+sf_counties <- counties_data|>
+  st_as_sf()
+```
+
+```{r leaflet-plots}
+countybin<-seq(from = 1, to = 95, by = 5)
+
+palcounty<-colorBin("Reds", domain = counties_data$incident_count, bins = countybin)
+
+
+leaflet(sf_counties) |>
+  addProviderTiles(providers$OpenStreetMap) |>
+  addPolygons(
+    fillColor = ~palcounty(counties_data$incident_count),  # Color by incident count
+    weight = 2,
+    opacity = 1,
+    color = "black",
+    fillOpacity = 1,)|>
+   addLegend(position = "topleft",
+            pal = palcounty,
+            values = ~counties_data$incident_count, 
+            title = "Deaths reported per county" ,
+            opacity = 1,
+            )
+
+
+<<<<<<< HEAD
 leaflet(data = all_counties_map_with_shapes) %>% 
   addTiles() %>% 
   addPolygons(fillColor = ~pal(incident_count)
@@ -102,4 +156,5 @@ data %>%
     ggtitle("Incident Count by State")
     theme_ipsum()
 ```
+
 

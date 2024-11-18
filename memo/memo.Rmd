@@ -1,6 +1,11 @@
 ---
+<<<<<<< HEAD
 title: "Project memo"
 author: "MEG"
+=======
+title: "Analysis of Racial Violence in the American South"
+author: "MEG Team"
+>>>>>>> c3693073376db6e592ffee748b87bc6f1f221e0d
 output: github_document
 ---
 
@@ -34,6 +39,7 @@ incident_count <- victims_incidents %>%
 ```
 
 
+
 ## Plots
 
 ### ggsave example for saving plots
@@ -60,14 +66,22 @@ ggsave("example-starwars-wide.png", width = 6, height = 4)
 
 
 
-### Plot 1: _________
+### Plot 1: Alabama county map
 
-#### Data cleanup steps specific to plot 1
+### Step 1: Sort data set and attach map geometry for the state of Alabama
+``` {r}
+alabama_incidents_fix <- victims_incidents %>%
+  filter(state == "Alabama") %>%
+  mutate(county = str_replace(county, " County", "")) %>%  # because county names don't match fips data
+  group_by(county) %>%
+  summarise(incident_count = n(), .groups = 'drop')
 
-These data cleaning sections are optional and depend on if you have some data cleaning steps specific to a particular plot
+alabama_incidents <- alabama_incidents_fix %>%
+  left_join(fips_data, by = "county")
 
-```{r}
-
+ sorted_alabama <- alabama_incidents %>% 
+  arrange(desc(incident_count)) %>% 
+ print(sorted_alabama)
 ```
 
 

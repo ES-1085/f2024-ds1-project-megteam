@@ -1,17 +1,22 @@
-Project title
+Racial Violence in the American South: An Analysis of Incidents in the 1930s–1950s 
 ================
-by Team name
+by MEG Team: Esme McDonald, Gus Rivers-McHugh, Maxie Langenberg
+
+
+`link to example, delete later!! https://github.com/ES-1085/project-rat-bastards/blob/main/README.md?plain=1`
+`GUIDELINES: Write-up of your project and findings go here. Think of this as the text of your handout. The length should be roughly 5 minutes when read out loud. Although pacing varies, a 5-minute speech is roughly 750 words. Your results with proper output and graphics go in your handout, this space is for a brief summary of your project.`
 
 ## Summary
+This project looks into incidents of racial violence in the American South between 1930 and 1954, with the aim of uncovering historical trends as well as recognizing the legacy of racial violence and its relevance to ongoing systemic inequities.
 
-Write-up of your project and findings go here. Think of this as the text
-of your handout. The length should be roughly 5 minutes when read
-out loud. Although pacing varies, a 5-minute speech is roughly 750
-words. 
+This dataset includes information on the location, timing, victim demographics, perpetrator types. These variables allow for a detailed analysis of geographic and time-influenced trends, as well as the social dynamics of such violence. One key aspect of the dataset is its focus on the Southern USA, where racial violence was deeply rooted in institutional and cultural practices. Mapping incidents at the county level highlights both areas of concentrated violence and the significant gaps in reporting of incidents. These gaps, due to the covert nature of many crimes and historical biases in record-keeping, show the dataset’s inherent limitations. Our data interpretations keep this in mind, analyzing the information we have while still taking into account that the historical context may be causing inaccuracies in our findings.
+ 
+## Methods
 
-Your results with proper output and
-graphics go in your handout, this space is for a brief summary of
-your project.
+## Analysis
+
+## Conclusion
+
 
 ## Handout
 

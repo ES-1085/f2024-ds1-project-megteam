@@ -1,6 +1,6 @@
-Project title
+Racial Violence in the American South: An Analysis of Incidents in the 1930s–1950s 
 ================
-by Team name
+by MEG Team: Esme McDonald, Gus Rivers-McHugh, Maxie Langenberg
 
 ## Summary
 
@@ -12,6 +12,8 @@ words.
 Your results with proper output and
 graphics go in your handout, this space is for a brief summary of
 your project.
+
+
 
 ## Handout
 

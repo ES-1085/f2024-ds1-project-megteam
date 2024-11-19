@@ -14,7 +14,7 @@ library(stringr)
 # install.packages("leaflet")
 library(leaflet)
 library(sf)
-library("visdat")
+library(visdat)
 library(naniar)
 library(UpSetR)
 # install.packages("devtools")
@@ -135,7 +135,6 @@ leaflet(data = all_counties_map_with_shapes) %>%
 ```
 
 ```{r spaghetti plot}
-# Load dataset from github
 
 data <- victims_incidents %>%
   filter(state %in% c("Alabama", "Arkansas", "Louisiana", "Mississippi", "North Carolina", "South Carolina", "Tennessee", "Texas", "Virginia")) |>
@@ -143,17 +142,25 @@ data <- victims_incidents %>%
   group_by(year, state, sex) |>
   summarize(n = n())
 
-# Plot
 data %>%
   drop_na(sex) |>
   ggplot( aes(x=year, y=n, group=state, color=state)) +
     geom_line(alpha = .5) +
     scale_color_viridis(discrete = TRUE) +
-    gghighlight
+    geom_vline(xintercept = 1945, linetype = "dotted", color = "red") +
+  geom_vline(xintercept = 1951, linetype = "dotted", color = "red") +
+  annotate("rect", 
+  xmin = 1945, 
+  xmax = 1951, 
+  ymin = 0, 
+  ymax = 20, 
+  alpha = 0.3, 
+  fill = "lightblue") +
+  labs( x = "Year", y = "Incident Count") +
     theme(
       legend.position="right",
-      plot.title = element_text(size=15)) +
-    ggtitle("Incident Count by State")
+      plot.title = element_text(size=10)) +
+    ggtitle("Anti-Black Violence Incident Count by State from 1930-1954")
     theme_ipsum()
 ```
 

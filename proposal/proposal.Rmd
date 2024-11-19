@@ -72,37 +72,8 @@ x = "Year")
 
 ```
 
-```{r load-packages}
-library(tidyverse)
-library(hrbrthemes)
-library(kableExtra)
-options(knitr.table.format = "html")
-library(streamgraph)
-library(viridis)
-library(DT)
-library(plotly)
-```
-
-```{r spagetti plot}
-victims_incidents %>%
-  filter(state %in% c("Alabama", "Arkansas", "Florida", "Georgia", "Louisiana", "Mississipi", "North Carolina", "South Carolina", "Tennessee", "Texas", "Virginia"))
-
-victims_incidents %>%
-  ggplot( aes(x=year, y=n, group=state, color=state)) +
-    geom_line() +
-    scale_color_viridis(discrete = TRUE) +
-    theme(
-      legend.position="none",
-      plot.title = element_text(size=14)
-    ) +
-    ggtitle("Incident Count By State and Year") +
-    theme_ipsum()
-```
 
 
-
-
->>>>>>> f7ba748557d71faaae1b75237eaf5f20f8182693
 
 ```{r}
 ggplot(victims_incidents, aes(

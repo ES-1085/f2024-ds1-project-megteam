@@ -11,15 +11,25 @@ library(usmap)
 library(dplyr)
 library(tigris)
 library(stringr)
-install.packages("leaflet")
+# install.packages("leaflet")
 library(leaflet)
 library(sf)
+library("visdat")
+library(naniar)
+library(UpSetR)
+# install.packages("devtools")
+library(devtools)
+devtools::install_github("hrbrmstr/streamgraph")
 library(RColorBrewer)
 ```
 
 ```{r analysis}
 victims_incidents <- read_csv("../data/victims_incidents.csv")
 glimpse(victims_incidents)
+```
+
+```{r}
+summary(victims_incidents)
 ```
 
 ``` {r incidents_state_map}
@@ -116,4 +126,31 @@ leaflet(sf_counties) |>
             )
 
 
+leaflet(data = all_counties_map_with_shapes) %>% 
+  addTiles() %>% 
+  addPolygons(fillColor = ~pal(incident_count))
 ```
+
+```{r spaghetti plot}
+# Load dataset from github
+
+data <- victims_incidents %>%
+  filter(state %in% c("Alabama", "Arkansas", "Louisiana", "Mississippi", "North Carolina", "South Carolina", "Tennessee", "Texas", "Virginia")) |>
+  mutate(year = incident_year_range_beg) |>
+  group_by(year, state, sex) |>
+  summarize(n = n())
+
+# Plot
+data %>%
+  drop_na(sex) |>
+  ggplot( aes(x=year, y=n, group=state, color=state)) +
+    geom_line() +
+    scale_color_viridis(discrete = TRUE) +
+    theme(
+      legend.position="none",
+      plot.title = element_text(size=15)) +
+    ggtitle("Incident Count by State")
+    theme_ipsum()
+```
+
+

@@ -1,13 +1,6 @@
 ---
-<<<<<<< HEAD
-title: "Project memo"
-author: "MEG"
-title: "Analysis of Racial Violence in the American South"
-author: "MEG Team"
-=======
 title: "Analysis of Racial Violence in the American South"
 author: "MEG Team: Esme McDonald, Gus Rivers-McHugh, Maxie Langenberg"
->>>>>>> a4f87e6a2afeb7e2e3aefd16bdf2e7197c0c391f
 output: github_document
 ---
 
@@ -16,15 +9,36 @@ This document should contain a detailed account of the data clean up for your da
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
-
-fips_data <- tigris::counties(state = "Alabama", class = "sf") %>%
-  select(fips = GEOID, county = NAME) #load fips data
-victims_incidents <- read_csv("../data/victims_incidents.csv")
+library(tidyverse)
+library(readr)
+library(ggridges)
+library(ggplot2)
+library(usmap)
+library(dplyr)
+library(tigris)
+library(stringr)
+library(leaflet)
+library(sf)
+library(visdat)
+library(naniar)
+library(UpSetR)
+library(devtools)
+#devtools::install_github("hrbrmstr/streamgraph")
+library(RColorBrewer)
+library(viridis)
 ```
 
 ## Data Clean Up Steps for Overall Data
 
-### Step 1: Adding a "perp_group" column based on the four individual true/false columns for perp type. 
+### Step 1: Uploading main dataset and FIPS geographic data
+```{r upload data}
+victims_incidents <- read_csv("../data/victims_incidents.csv")
+
+fips_data <- tigris::counties(state = "Alabama", class = "sf") %>%
+  select(fips = GEOID, county = NAME) #load fips data
+``` 
+
+### Step 2: Adding a "perp_group" column based on the four individual true/false columns for perp type. 
 
 ```{r merge-perp-groups}
 victims_incidents <- victims_incidents %>%
@@ -37,12 +51,14 @@ victims_incidents <- victims_incidents %>%
   ))
 ```
 
-### Step 2: Create a count of incident total by each state 
+### Step 3: Create a count of incident total by each state 
 ``` {r incidents_state_map}
 incident_count <- victims_incidents %>%
   group_by(state) %>%
   summarize(incident_total = n())
 ```
+
+
 
 ## Plots
 

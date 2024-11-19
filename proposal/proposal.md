@@ -8,6 +8,11 @@ library(broom)
 library(readr)
 library(ggridges)
 library(ggplot2)
+library(usmap)
+library(dplyr)
+library(tigris)
+library(stringr)
+library(viridis)
 ```
 
 ## 1. Introduction
@@ -93,7 +98,7 @@ glimpse(victims_incidents)
 In a choropleth map with bar chart we are hoping to visualize these
 variables:
 
-Density of incidents Date (Year) Gender County
+Density of incidents Date (Year) County
 
 In a bar chart we are hoping to visualize these variables: Perpetrator
 type Conviction
@@ -140,28 +145,59 @@ dim(victims_incidents)
 ``` r
 ggplot(victims_incidents, aes(
   sex))+
-  geom_bar()
+  geom_bar()+
+  labs(title = "Incident count by Sex")
 ```
 
 ![](proposal_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
 ``` r
-victims_incidents<-victims_incidents|>
-  drop_na(sex)
+# 
+```
+
+``` r
+victims_incidents <- victims_incidents %>%
+  mutate(perp_group = case_when(
+    perp_group_police == TRUE ~ "police",
+    perp_group_posse == TRUE ~ "posse",
+    perp_group_hate == TRUE ~ "hate",
+    perp_group_mob == TRUE ~ "mob",
+    TRUE ~ NA_character_
+  ))
+```
+
+``` r
+#viridis(5, option = "C", begin = 0.6)
+red_palette <- viridis(5, option = "F", begin = 0.42)
+#Run perp_group creation steps in memo.Rmd for this chunk to work
 ggplot(victims_incidents, aes(
-  incident_year_range_end, fill=sex))+
-  geom_bar()
+  incident_year_range_end, fill = perp_group)) +
+  geom_bar() +
+  labs(
+    title = "Incidents of racial violence by year and perpetrator type",
+    subtitle = "Of reported incidents of violence in the American South between the years 1930 and 1954",
+    y = "Incident Count",
+    x = "Year"
+  ) +
+  scale_fill_manual(
+    name = "Perpetrator Group",
+    labels = c("Hate Group", "Mob", "Police", "Posse", "No group reported"),
+    values = red_palette
+
+  ) +
+  theme(legend.position = "right")
 ```
 
     ## Warning: Removed 3 rows containing non-finite outside the scale range
     ## (`stat_count()`).
 
-![](proposal_files/figure-gfm/unnamed-chunk-1-2.png)<!-- -->
+![](proposal_files/figure-gfm/year%20perp%20group%20bar%20plot-1.png)<!-- -->
 
 ``` r
 ggplot(victims_incidents, aes(
   incident_year_range_end, state, fill=state))+
-  geom_density_ridges()
+  geom_density_ridges()+
+  labs(title = "Incident count by State and Year")
 ```
 
     ## Picking joint bandwidth of 2.59
@@ -169,7 +205,7 @@ ggplot(victims_incidents, aes(
     ## Warning: Removed 3 rows containing non-finite outside the scale range
     ## (`stat_density_ridges()`).
 
-![](proposal_files/figure-gfm/unnamed-chunk-1-3.png)<!-- -->
+![](proposal_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ## 4. Data Ethics Review
 

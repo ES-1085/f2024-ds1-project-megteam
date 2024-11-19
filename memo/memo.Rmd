@@ -46,53 +46,27 @@ incident_count <- victims_incidents %>%
 
 ## Plots
 
-### ggsave example for saving plots
+#### Final Plot 1: Incident count by perpetrator group and year
 
-```{r starwars ggsave example}
-p1 <- starwars |>
-  filter(mass < 1000, 
-         species %in% c("Human", "Cerean", "Pau'an", "Droid", "Gungan")) |>
-  ggplot() +
-  geom_point(aes(x = mass, 
-                 y = height, 
-                 color = species)) +
-  labs(x = "Weight (kg)", 
-       y = "Height (m)",
-       color = "Species",
-       title = "Weight and Height of Select Starwars Species",
-       caption = paste("This data comes from the starwars api: https://swapi.py43.com"))
+```{r year_perp_group_bar}
+red_palette <- viridis(5, option = "F", begin = 0.42)
+ggplot(victims_incidents, aes(
+  incident_year_range_end, fill = perp_group)) +
+  geom_bar() +
+  labs(
+    title = "Incidents of racial violence by year and perpetrator type",
+    subtitle = "Of reported incidents of violence in the American South between the years 1930 and 1954",
+    y = "Incident Count",
+    x = "Year"
+  ) +
+  scale_fill_manual(
+    name = "Perpetrator Group",
+    labels = c("Hate Group", "Mob", "Police", "Posse", "No group reported"),
+    values = red_palette
+  ) +
+  theme(legend.position = "right")
 
-
-ggsave("example-starwars.png", width = 4, height = 4)
-
-ggsave("example-starwars-wide.png", width = 6, height = 4)
-```
-
-
-
-### Plot 1: Alabama county map
-
-### Step 1: Sort data set and attach map geometry for the state of Alabama
-``` {r}
-alabama_incidents_fix <- victims_incidents %>%
-  filter(state == "Alabama") %>%
-  mutate(county = str_replace(county, " County", "")) %>%  # because county names don't match fips data
-  group_by(county) %>%
-  summarise(incident_count = n(), .groups = 'drop')
-
-alabama_incidents <- alabama_incidents_fix %>%
-  left_join(fips_data, by = "county")
-
- sorted_alabama <- alabama_incidents %>% 
-  arrange(desc(incident_count)) %>% 
- print(sorted_alabama)
-```
-
-
-#### Final Plot 1
-
-```{r}
-
+ggsave("Incident_year_perp.png", width = 8, height = 5)
 ```
 
 

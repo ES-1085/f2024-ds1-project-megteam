@@ -14,6 +14,7 @@ library(usmap)
 library(dplyr)
 library(tigris)
 library(stringr)
+library(viridis)
 ```
 
 ## 1. Introduction
@@ -55,25 +56,39 @@ ggplot(victims_incidents, aes(
   labs(title = "Incident count by Sex")
 # 
 ```
-
-```{r}
-victims_incidents<-victims_incidents|>
-  drop_na(sex)
-ggplot(victims_incidents, aes(
-  incident_year_range_end, fill=perp_group))+
-  geom_bar()+
-  labs(title = "Incident count by year and victim's sex",
-       subtitle = "Of reported incidents of anti-black violence in the American South between the years 1930 and 1954",
-       y = "Incident Count",
-       x = "Year")+ 
-  theme(legend.position = "right")
-  labs(title = "Male vs. Female incident count from 1930-1955", 
-x = "Year")
-
+```{r merge-perp-groups}
+victims_incidents <- victims_incidents %>%
+  mutate(perp_group = case_when(
+    perp_group_police == TRUE ~ "police",
+    perp_group_posse == TRUE ~ "posse",
+    perp_group_hate == TRUE ~ "hate",
+    perp_group_mob == TRUE ~ "mob",
+    TRUE ~ NA_character_
+  ))
 ```
 
+```{r year perp group bar plot}
+#viridis(5, option = "C", begin = 0.6)
+red_palette <- viridis(5, option = "F", begin = 0.42)
+#Run perp_group creation steps in memo.Rmd for this chunk to work
+ggplot(victims_incidents, aes(
+  incident_year_range_end, fill = perp_group)) +
+  geom_bar() +
+  labs(
+    title = "Incidents of racial violence by year and perpetrator type",
+    subtitle = "Of reported incidents of violence in the American South between the years 1930 and 1954",
+    y = "Incident Count",
+    x = "Year"
+  ) +
+  scale_fill_manual(
+    name = "Perpetrator Group",
+    labels = c("Hate Group", "Mob", "Police", "Posse", "No group reported"),
+    values = red_palette
 
+  ) +
+  theme(legend.position = "right")
 
+```
 
 ```{r}
 ggplot(victims_incidents, aes(

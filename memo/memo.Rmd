@@ -65,7 +65,12 @@ incident_count <- victims_incidents %>%
 #### Final Plot 1: Incident count by perpetrator group and year
 
 ```{r year_perp_group_bar}
-red_palette <- viridis(5, option = "F", begin = 0.42)
+
+victims_incidents <- victims_incidents %>% 
+  drop_na(perp_group)
+
+red_palette <- viridis(4, option = "F", begin = 0.42)
+
 ggplot(victims_incidents, aes(
   incident_year_range_end, fill = perp_group)) +
   geom_bar() +
@@ -77,11 +82,12 @@ ggplot(victims_incidents, aes(
   ) +
   scale_fill_manual(
     name = "Perpetrator Group",
-    labels = c("Hate Group", "Mob", "Police", "Posse", "No group reported"),
+    labels = c("Hate Group", "Mob", "Police", "Posse"),
     values = red_palette
   ) +
   theme(legend.position = "right")
 
+#to save image
 ggsave("Incident_year_perp.png", width = 8, height = 5)
 ```
 

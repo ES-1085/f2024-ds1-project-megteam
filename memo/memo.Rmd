@@ -69,7 +69,10 @@ incident_count <- victims_incidents %>%
 victims_incidents <- victims_incidents %>% 
   drop_na(perp_group)
 
-red_palette <- viridis(4, option = "F", begin = 0.42)
+victims_incidents$perp_group <- factor(victims_incidents$perp_group, levels = c("posse", "mob", "hate", "police"))
+
+red_palette <- viridis(4, option = "F", begin = 0.2, end = 0.9)
+red_palette <- rev(red_palette)
 
 ggplot(victims_incidents, aes(
   incident_year_range_end, fill = perp_group)) +
@@ -82,13 +85,15 @@ ggplot(victims_incidents, aes(
   ) +
   scale_fill_manual(
     name = "Perpetrator Group",
-    labels = c("Hate Group", "Mob", "Police", "Posse"),
+    labels = c("Posse", "Mob", "Hate Group", "Police"),
     values = red_palette
   ) +
-  theme(legend.position = "right")
+  theme(
+    panel.background = element_rect(fill = "#ebebeb"), 
+    legend.position = "right")
 
 #to save image
-ggsave("Incident_year_perp.png", width = 8, height = 5)
+ggsave("Incident_year_perp_final.png", width = 8, height = 5)
 ```
 
 

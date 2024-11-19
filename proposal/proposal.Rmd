@@ -60,15 +60,12 @@ ggplot(victims_incidents, aes(
 victims_incidents<-victims_incidents|>
   drop_na(sex)
 ggplot(victims_incidents, aes(
-  incident_year_range_end, fill=sex))+
+  incident_year_range_end, fill=perp_group))+
   geom_bar()+
   labs(title = "Incident count by year and victim's sex",
        subtitle = "Of reported incidents of anti-black violence in the American South between the years 1930 and 1954",
        y = "Incident Count",
        x = "Year")+ 
-  scale_fill_manual(name = "Victim's Sex",
-                    labels = c("Female", "Male"),
-                    values = c("#ff3333", "#800000")) +  # Hex values for colors
   theme(legend.position = "right")
   labs(title = "Male vs. Female incident count from 1930-1955", 
 x = "Year")

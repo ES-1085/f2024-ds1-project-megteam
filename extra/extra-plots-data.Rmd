@@ -28,12 +28,19 @@ victims_incidents <- read_csv("../data/victims_incidents.csv")
 glimpse(victims_incidents)
 ```
 
+
+```{r}
+summary(victims_incidents)
+```
+
+
 ```{r incidents_state_map}
 plot_usmap(data = counties_data, values = "incident_count", include = .south_region, color = "black", exclude = c("OK", "KY", "WV", "MD", "DE", "DC"), labels = TRUE) + 
   scale_fill_continuous(low = "white", high = "red", name = "Incident Count") + 
   labs(title = "Incident Count By State")+
   theme(legend.position = "right")
  #colorblind friendly pallete
+ #colorblind friendly pallet
 ```
 
 ```{r incidents_count_by_state}

@@ -1,8 +1,13 @@
 ---
+<<<<<<< HEAD
 title: "Project memo"
 author: "MEG"
 title: "Analysis of Racial Violence in the American South"
 author: "MEG Team"
+=======
+title: "Analysis of Racial Violence in the American South"
+author: "MEG Team: Esme McDonald, Gus Rivers-McHugh, Maxie Langenberg"
+>>>>>>> a4f87e6a2afeb7e2e3aefd16bdf2e7197c0c391f
 output: github_document
 ---
 
@@ -11,6 +16,10 @@ This document should contain a detailed account of the data clean up for your da
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
+
+fips_data <- tigris::counties(state = "Alabama", class = "sf") %>%
+  select(fips = GEOID, county = NAME) #load fips data
+victims_incidents <- read_csv("../data/victims_incidents.csv")
 ```
 
 ## Data Clean Up Steps for Overall Data
@@ -34,8 +43,6 @@ incident_count <- victims_incidents %>%
   group_by(state) %>%
   summarize(incident_total = n())
 ```
-
-
 
 ## Plots
 

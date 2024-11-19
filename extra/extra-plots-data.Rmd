@@ -14,33 +14,26 @@ library(stringr)
 # install.packages("leaflet")
 library(leaflet)
 library(sf)
-<<<<<<< HEAD
 library("visdat")
 library(naniar)
 library(UpSetR)
 # install.packages("devtools")
 library(devtools)
 devtools::install_github("hrbrmstr/streamgraph")
-=======
 library(RColorBrewer)
->>>>>>> c3693073376db6e592ffee748b87bc6f1f221e0d
 ```
 
 ```{r analysis}
 victims_incidents <- read_csv("../data/victims_incidents.csv")
 glimpse(victims_incidents)
 ```
-<<<<<<< HEAD
-```{r}
-summary(victims_incidents)
 
-``` {r incidents_state_map}
+```{r incidents_state_map}
 plot_usmap(data = counties_data, values = "incident_count", include = .south_region, color = "black", exclude = c("OK", "KY", "WV", "MD", "DE", "DC"), labels = TRUE) + 
   scale_fill_continuous(low = "white", high = "red", name = "Incident Count") + 
   labs(title = "Incident Count By State")+
   theme(legend.position = "right")
- #colorblind friendly pallet
->>>>>>> c3693073376db6e592ffee748b87bc6f1f221e0d
+ #colorblind friendly pallete
 ```
 
 ```{r incidents_count_by_state}
@@ -129,10 +122,9 @@ leaflet(sf_counties) |>
             )
 
 
-<<<<<<< HEAD
 leaflet(data = all_counties_map_with_shapes) %>% 
   addTiles() %>% 
-  addPolygons(fillColor = ~pal(incident_count)
+  addPolygons(fillColor = ~pal(incident_count))
 ```
 
 ```{r spaghetti plot}
@@ -148,10 +140,11 @@ data <- victims_incidents %>%
 data %>%
   drop_na(sex) |>
   ggplot( aes(x=year, y=n, group=state, color=state)) +
-    geom_line() +
+    geom_line(alpha = .5) +
     scale_color_viridis(discrete = TRUE) +
+    gghighlight
     theme(
-      legend.position="none",
+      legend.position="right",
       plot.title = element_text(size=15)) +
     ggtitle("Incident Count by State")
     theme_ipsum()

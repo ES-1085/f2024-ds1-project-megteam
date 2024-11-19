@@ -1,11 +1,8 @@
 ---
-<<<<<<< HEAD
 title: "Project memo"
 author: "MEG"
-=======
 title: "Analysis of Racial Violence in the American South"
 author: "MEG Team"
->>>>>>> c3693073376db6e592ffee748b87bc6f1f221e0d
 output: github_document
 ---
 

@@ -28,15 +28,18 @@ victims_incidents <- read_csv("../data/victims_incidents.csv")
 glimpse(victims_incidents)
 ```
 
+
 ```{r}
 summary(victims_incidents)
 ```
 
-``` {r incidents_state_map}
+
+```{r incidents_state_map}
 plot_usmap(data = counties_data, values = "incident_count", include = .south_region, color = "black", exclude = c("OK", "KY", "WV", "MD", "DE", "DC"), labels = TRUE) + 
   scale_fill_continuous(low = "white", high = "red", name = "Incident Count") + 
   labs(title = "Incident Count By State")+
   theme(legend.position = "right")
+ #colorblind friendly pallete
  #colorblind friendly pallet
 ```
 
@@ -144,10 +147,11 @@ data <- victims_incidents %>%
 data %>%
   drop_na(sex) |>
   ggplot( aes(x=year, y=n, group=state, color=state)) +
-    geom_line() +
+    geom_line(alpha = .5) +
     scale_color_viridis(discrete = TRUE) +
+    gghighlight
     theme(
-      legend.position="none",
+      legend.position="right",
       plot.title = element_text(size=15)) +
     ggtitle("Incident Count by State")
     theme_ipsum()

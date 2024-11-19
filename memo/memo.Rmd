@@ -1,6 +1,13 @@
 ---
+<<<<<<< HEAD
+title: "Project memo"
+author: "MEG"
+title: "Analysis of Racial Violence in the American South"
+author: "MEG Team"
+=======
 title: "Analysis of Racial Violence in the American South"
 author: "MEG Team: Esme McDonald, Gus Rivers-McHugh, Maxie Langenberg"
+>>>>>>> a4f87e6a2afeb7e2e3aefd16bdf2e7197c0c391f
 output: github_document
 ---
 

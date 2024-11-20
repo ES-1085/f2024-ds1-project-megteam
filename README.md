@@ -3,9 +3,6 @@ Racial Violence in the American South: An Analysis of Killings in the 1930s–19
 by MEG Team: Esme McDonald, Gus Rivers-McHugh, Maxie Langenberg
 
 
-`link to example, delete later!! https://github.com/ES-1085/project-rat-bastards/blob/main/README.md?plain=1`
-`GUIDELINES: Write-up of your project and findings go here. Think of this as the text of your handout. The length should be roughly 5 minutes when read out loud. Although pacing varies, a 5-minute speech is roughly 750 words. Your results with proper output and graphics go in your handout, this space is for a brief summary of your project.`
-
 ## Summary
 This project looks into incidents of racially motivated killings in the American South between 1930 and 1954, with the aim of uncovering historical trends as well as recognizing the legacy of racial violence and its relevance to ongoing systemic inequities.
 

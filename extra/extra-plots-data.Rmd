@@ -35,10 +35,10 @@ summary(victims_incidents)
 
 
 ```{r incidents_state_map}
-plot_usmap(data = counties_data, values = "incident_count", include = .south_region, color = "black", exclude = c("OK", "KY", "WV", "MD", "DE", "DC"), labels = TRUE) + 
-  scale_fill_continuous(low = "white", high = "red", name = "Incident Count") + 
-  labs(title = "Incident Count By State")+
-  theme(legend.position = "right")
+#plot_usmap(data = counties_data, values = "incident_count", include = .south_region, color = "black", exclude = c("OK", "KY", "WV", "MD", "DE", "DC"), labels = TRUE) + 
+#  scale_fill_continuous(low = "white", high = "red", name = "Incident Count") + 
+#  labs(title = "Incident Count By State")+
+#  theme(legend.position = "right")
  #colorblind friendly pallete
  #colorblind friendly pallet
 ```
@@ -57,11 +57,11 @@ fips_data <- tigris::counties(state = "Alabama", class = "sf") %>%
 
 #Data cleanup steps for this map moved to memo
  
-plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_count", include = "AL", color = "black") +
- scale_fill_continuous(low = "white", high = "red", name = "Incidents Count", na.value = "white") +
-  labs(title = "Number of Incidents by County in Alabama",
-      subtitle = "Of 203 total incidents in the state") +
-  theme(legend.position = "right")
+#plot_usmap(regions = "counties", data = alabama_incidents, values = "incident_count", include = "AL", color = "black") +
+ #scale_fill_continuous(low = "white", high = "red", name = "Incidents Count", na.value = "white") +
+  #labs(title = "Number of Incidents by County in Alabama",
+   #   subtitle = "Of 203 total incidents in the state") +
+  #theme(legend.position = "right")
 ```
 
 ``` {r leaflet-trial}
@@ -88,11 +88,11 @@ counties_data<-counties_data|> # Convert STATEFP number to state name to allow j
     STATEFP == "47" ~ "Tennessee",
     STATEFP == "48" ~ "Texas",
     STATEFP == "51" ~ "Virginia"))|>
-  select(county, state, geometry)|>
+  select(county, state, geometry)
 
-  mutate(county = str_replace(county, " Parish", "")) # Fix Louisiana
-
-
+all_counties_map<-all_counties_map|>
+  mutate(county = str_replace(county, " Parish", ""))|> # Fix Louisiana
+   mutate(county = str_replace(county, "Saint ", "St. ")) #Fix "Saint"
 
 ```
 
@@ -105,33 +105,39 @@ problems<- all_counties_map |>
 
 sf_counties <- counties_data|>
   st_as_sf()
+
+```
+```{r cutreorder }
+counties_data<-counties_data|>
+  mutate(count_cut = cut(incident_count, breaks = c(-Inf,0.9,1.9,2.9,3.9,4.9,5.9,10.9,40.9,Inf), labels = c("Not reported","1","2","3","4","5","6-10","11-40",">40")))|>
+  mutate(count_cut = ifelse(is.na(count_cut), "Not reported", as.character(count_cut)))
+
+counties_data$count_cut <- factor(counties_data$count_cut, 
+                                  levels = c("Not reported", "1", "2", "3", "4", "5", "6-10", "11-40", ">40"))
 ```
 
 ```{r leaflet-plots}
-countybin<-seq(from = 1, to = 95, by = 5)
+palcounty<-colorFactor("Reds", domain = counties_data$count_cut)
 
-palcounty<-colorBin("Reds", domain = counties_data$incident_count, bins = countybin)
-
-
-leaflet(sf_counties) |>
-  addProviderTiles(providers$OpenStreetMap) |>
+leaflet(counties_data) |>
+  addProviderTiles(providers$Jawg.Streets) |>
   addPolygons(
-    fillColor = ~palcounty(counties_data$incident_count),  # Color by incident count
-    weight = 2,
+    fillColor = ~palcounty(counties_data$count_cut),  # Color by incident count
+    weight = 0.5,
+    highlightOptions = highlightOptions(weight = 1,
+        color = "white",
+        fillOpacity = 1,
+        bringToFront = TRUE),
     opacity = 1,
     color = "black",
-    fillOpacity = 1,)|>
+    fillOpacity = 1,
+    popup = ~paste("State: ", state, "<br>", "County: ", county, "<br>", "Deaths reported: ", incident_count, "<br>"))|>
    addLegend(position = "topleft",
             pal = palcounty,
-            values = ~counties_data$incident_count, 
-            title = "Deaths reported per county" ,
-            opacity = 1,
-            )
+            values = ~counties_data$count_cut, 
+            title = "Deaths reported" ,
+            opacity = 1)
 
-
-leaflet(data = all_counties_map_with_shapes) %>% 
-  addTiles() %>% 
-  addPolygons(fillColor = ~pal(incident_count))
 ```
 
 ```{r spaghetti plot}

@@ -1,5 +1,4 @@
 Racial Violence in the American South: An Analysis of Killings in the 1930s–1950s 
-================
 by MEG Team: Esme McDonald, Gus Rivers-McHugh, Maxie Langenberg
 
 

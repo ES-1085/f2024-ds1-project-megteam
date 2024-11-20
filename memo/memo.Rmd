@@ -78,9 +78,9 @@ ggplot(victims_incidents, aes(
   incident_year_range_end, fill = perp_group)) +
   geom_bar() +
   labs(
-    title = "Incidents of racial violence by year and perpetrator type",
-    subtitle = "Of reported incidents of violence in the American South between the years 1930 and 1954",
-    y = "Incident Count",
+    title = "Deaths by racial violence by year and perpetrator type",
+    subtitle = "Of reported incidents in the American South between the years 1930 and 1954",
+    y = "Death Count",
     x = "Year"
   ) +
   scale_fill_manual(
@@ -93,11 +93,11 @@ ggplot(victims_incidents, aes(
     legend.position = "right")
 
 #to save image
-#ggsave("Incident_year_perp_final.png", width = 8, height = 5)
+ggsave("Death_year_perp_final.png", width = 8, height = 5)
 ```
 
 
-### Plot 2: _________
+### Plot 2: Spaghettis
 
 ### Plot 3: ___________
 

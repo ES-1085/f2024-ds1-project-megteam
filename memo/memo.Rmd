@@ -1,13 +1,6 @@
 ---
-<<<<<<< HEAD
-title: "Project memo"
-author: "MEG"
-title: "Analysis of Racial Violence in the American South"
-author: "MEG Team"
-=======
 title: "Analysis of Racial Violence in the American South"
 author: "MEG Team: Esme McDonald, Gus Rivers-McHugh, Maxie Langenberg"
->>>>>>> a4f87e6a2afeb7e2e3aefd16bdf2e7197c0c391f
 output: github_document
 ---
 
@@ -16,15 +9,36 @@ This document should contain a detailed account of the data clean up for your da
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
-
-fips_data <- tigris::counties(state = "Alabama", class = "sf") %>%
-  select(fips = GEOID, county = NAME) #load fips data
-victims_incidents <- read_csv("../data/victims_incidents.csv")
+library(tidyverse)
+library(readr)
+library(ggridges)
+library(ggplot2)
+library(usmap)
+library(dplyr)
+library(tigris)
+library(stringr)
+library(leaflet)
+library(sf)
+library(visdat)
+library(naniar)
+library(UpSetR)
+library(devtools)
+#devtools::install_github("hrbrmstr/streamgraph")
+library(RColorBrewer)
+library(viridis)
 ```
 
 ## Data Clean Up Steps for Overall Data
 
-### Step 1: Adding a "perp_group" column based on the four individual true/false columns for perp type. 
+### Step 1: Uploading main dataset and FIPS geographic data
+```{r upload data}
+victims_incidents <- read_csv("../data/victims_incidents.csv")
+
+fips_data <- tigris::counties(state = "Alabama", class = "sf") %>%
+  select(fips = GEOID, county = NAME) #load fips data
+``` 
+
+### Step 2: Adding a "perp_group" column based on the four individual true/false columns for perp type. 
 
 ```{r merge-perp-groups}
 victims_incidents <- victims_incidents %>%
@@ -37,36 +51,50 @@ victims_incidents <- victims_incidents %>%
   ))
 ```
 
-### Step 2: Create a count of incident total by each state 
+### Step 3: Create a count of incident total by each state 
 ``` {r incidents_state_map}
 incident_count <- victims_incidents %>%
   group_by(state) %>%
   summarize(incident_total = n())
 ```
 
+
+
 ## Plots
 
 #### Final Plot 1: Incident count by perpetrator group and year
 
 ```{r year_perp_group_bar}
-red_palette <- viridis(5, option = "F", begin = 0.42)
+
+victims_incidents <- victims_incidents %>% 
+  drop_na(perp_group)
+
+victims_incidents$perp_group <- factor(victims_incidents$perp_group, levels = c("posse", "mob", "hate", "police"))
+
+red_palette <- viridis(4, option = "F", begin = 0.2, end = 0.9)
+red_palette <- rev(red_palette)
+
 ggplot(victims_incidents, aes(
   incident_year_range_end, fill = perp_group)) +
   geom_bar() +
   labs(
-    title = "Incidents of racial violence by year and perpetrator type",
-    subtitle = "Of reported incidents of violence in the American South between the years 1930 and 1954",
-    y = "Incident Count",
+    title = "Deaths by racial violence by year and perpetrator type",
+    subtitle = "Of reported incidents in the American South between the years 1930 and 1954",
+    y = "Death Count",
     x = "Year"
   ) +
   scale_fill_manual(
     name = "Perpetrator Group",
-    labels = c("Hate Group", "Mob", "Police", "Posse", "No group reported"),
+    labels = c("Posse", "Mob", "Hate Group", "Police"),
     values = red_palette
   ) +
-  theme(legend.position = "right")
+  theme_minimal()+
+  theme(
+    panel.background = element_rect(fill = "#ebebeb"), 
+    legend.position = "right") 
 
-ggsave("Incident_year_perp.png", width = 8, height = 5)
+#to save image
+ggsave("BARyear_perp_final.png", width = 8, height = 5)
 ```
 
 

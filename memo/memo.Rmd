@@ -127,7 +127,9 @@ data %>%
    theme(
       plot.title = element_text(size=15)) +
      ggtitle("Anti-Black Deaths by State from 1930-1954")
-      theme_ipsum()
+   #   theme_ipsum()
+      
+ggsave("SpaghettiPlot.png", width = 8, height = 5)
 ```
 
 ### Plot 3: ___________

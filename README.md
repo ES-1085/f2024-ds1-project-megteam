@@ -16,7 +16,6 @@ Our data is sourced from The Burnham-Nobles Archive of The Civil Rights & Restor
 ## Conclusion
 This dataset offers a critical lens into historical patterns of racial violence, despite its limitations in reporting. Although we focus on a time period over 70 years ago, the information is still incredibly relevent now and into the future, by emphasizing the importance of acknowledging and addressing the historical roots of racial inequity and the ongoing impact of systemic oppression. The insufficient data for some parts of our dataset reflects the greater challenges in documenting racial killings, including the silencing of Black voices and the historical ignorance of legal and social institutions. This project aims to demonstrate and publicize the need for continued research to uncover and memorialize these stories, ensuring that they remain a remembered part of our nation’s history. 
 
-
 ## Handout
 
 Our presentation can be found [here](handout/handout.pdf). You can update the filename and extension of your handout.
@@ -33,6 +32,9 @@ on proper citation for datasets. If you got your data off the web, make
 sure to note the retrieval date.
 
 ## References
-
-List any references here. You should, at a minimum, list your data
-source.
+The Burnham-Nobles Digital Archive (Main Dataset), CRRJ Archive, - https://crrjarchive.org
+Jim Crow Laws Causes and Effects, Britannica - https://www.britannica.com/summary/Jim-Crow-Laws-Causes-and-Effects
+The Lost Promise of Reconstruction, Bill of Rights Institute - https://billofrightsinstitute.org/essays/introductory-essay-the-lost-promise-of-reconstruction-and-rise-of-jim-crow-1860-1896
+Ku Klux Klan, History - https://www.history.com/topics/19th-century/ku-klux-klan
+Living Histories of White Supremacist Policing, Cambridge University Press - https://www.cambridge.org/core/journals/du-bois-review-social-science-research-on-race/article/living-histories-of-white-supremacist-policing/E2503031AD0D2A85B464E56D44930166
+Birmingham Civil Rights, Alabama NPS - https://npshistory.com/publications/bicr/index.htm

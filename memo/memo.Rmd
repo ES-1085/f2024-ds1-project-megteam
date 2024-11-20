@@ -93,7 +93,7 @@ ggplot(victims_incidents, aes(
     legend.position = "right")
 
 #to save image
-ggsave("Incident_year_perp_final.png", width = 8, height = 5)
+#ggsave("Incident_year_perp_final.png", width = 8, height = 5)
 ```
 
 

@@ -88,12 +88,13 @@ ggplot(victims_incidents, aes(
     labels = c("Posse", "Mob", "Hate Group", "Police"),
     values = red_palette
   ) +
+  theme_minimal()+
   theme(
     panel.background = element_rect(fill = "#ebebeb"), 
-    legend.position = "right")
+    legend.position = "right") 
 
 #to save image
-ggsave("Death_year_perp_final.png", width = 8, height = 5)
+ggsave("BARyear_perp_final.png", width = 8, height = 5)
 ```
 
 

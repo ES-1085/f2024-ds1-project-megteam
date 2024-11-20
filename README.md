@@ -33,8 +33,13 @@ sure to note the retrieval date.
 
 ## References
 The Burnham-Nobles Digital Archive (Main Dataset), CRRJ Archive, - https://crrjarchive.org
+
 Jim Crow Laws Causes and Effects, Britannica - https://www.britannica.com/summary/Jim-Crow-Laws-Causes-and-Effects
+
 The Lost Promise of Reconstruction, Bill of Rights Institute - https://billofrightsinstitute.org/essays/introductory-essay-the-lost-promise-of-reconstruction-and-rise-of-jim-crow-1860-1896
+
 Ku Klux Klan, History - https://www.history.com/topics/19th-century/ku-klux-klan
+
 Living Histories of White Supremacist Policing, Cambridge University Press - https://www.cambridge.org/core/journals/du-bois-review-social-science-research-on-race/article/living-histories-of-white-supremacist-policing/E2503031AD0D2A85B464E56D44930166
+
 Birmingham Civil Rights, Alabama NPS - https://npshistory.com/publications/bicr/index.htm

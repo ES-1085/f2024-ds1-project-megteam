@@ -23,7 +23,7 @@ This dataset offers a critical lens into historical patterns of racial violence,
 
 ## Handout
 
-Our presentation can be found [here](handout/handout.pdf). You can update the filename and extension of your handout.
+Our handout can be found [here](handout/MEG Team Poster.pdf).
 
 ## Memo
 
